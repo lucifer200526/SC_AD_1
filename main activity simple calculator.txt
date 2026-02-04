@@ -1,0 +1,70 @@
+package com.example.simplecalculator
+
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var display: TextView
+    private var firstNumber = 0.0
+    private var operation = ""
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        display = findViewById(R.id.tvDisplay)
+
+        val numberButtons = listOf(
+            R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
+            R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9
+        )
+
+        for (id in numberButtons) {
+            findViewById<Button>(id).setOnClickListener {
+                if (display.text.toString() == "0") {
+                    display.text = (it as Button).text
+                } else {
+                    display.append((it as Button).text)
+                }
+            }
+        }
+
+        findViewById<Button>(R.id.btnPlus).setOnClickListener { setOperation("+") }
+        findViewById<Button>(R.id.btnMinus).setOnClickListener { setOperation("-") }
+        findViewById<Button>(R.id.btnMultiply).setOnClickListener { setOperation("*") }
+        findViewById<Button>(R.id.btnDivide).setOnClickListener { setOperation("/") }
+
+        findViewById<Button>(R.id.btnEqual).setOnClickListener {
+            val secondNumber = display.text.toString().toDouble()
+            val result = when (operation) {
+                "+" -> firstNumber + secondNumber
+                "-" -> firstNumber - secondNumber
+                "*" -> firstNumber * secondNumber
+                "/" -> firstNumber / secondNumber
+                else -> 0.0
+            }
+            display.text = result.toString()
+        }
+
+        findViewById<Button>(R.id.btnClear).setOnClickListener {
+            display.text = "0"
+            firstNumber = 0.0
+            operation = ""
+        }
+
+        findViewById<Button>(R.id.btnDot).setOnClickListener {
+            if (!display.text.contains(".")) {
+                display.append(".")
+            }
+        }
+    }
+
+    private fun setOperation(op: String) {
+        firstNumber = display.text.toString().toDouble()
+        operation = op
+        display.text = "0"
+    }
+}
