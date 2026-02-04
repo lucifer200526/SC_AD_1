@@ -1,0 +1,1 @@
+This is a basic calculator application that allows users to perform fundamental arithmetic operations such as addition, subtraction, multiplication, and division. The app provides a clean and user-friendly interface where users can input numbers and get instant results. It is designed to demonstrate basic Android UI handling and logic implementation using Kotlin.
